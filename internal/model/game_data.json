@@ -1,0 +1,1300 @@
+{
+    "levels": [
+        {
+            "number": 0,
+            "terrain_color": "red",
+            "gravity": {
+                "int": 0,
+                "frac": 128
+            },
+            "gun_shoot_probability": 96,
+            "player_start": {
+                "x": {
+                    "int": 128,
+                    "frac": 0
+                },
+                "y": {
+                    "int_hi": 0,
+                    "int": 16,
+                    "frac": 0
+                }
+            },
+            "terrain": {
+                "left_wall_1": {
+                    "x_increments": [0, 0, 0, 85, 1, 21, 1, 25, 0],
+                    "counts": [255, 255, 171, 1, 15, 1, 12, 1, 255]
+                },
+                "left_wall_2": {
+                    "x_increments": [0, 0, 0, 85, 1, 21, 1, 25, 0],
+                    "counts": [255, 255, 171, 1, 15, 1, 12, 1, 255]
+                },
+                "right_wall_1": {
+                    "x_increments": [0, 0, 0, 183, 255, 241, 0],
+                    "counts": [255, 255, 171, 1, 9, 1, 255]
+                },
+                "right_wall_2": {
+                    "x_increments": [0, 0, 0, 183, 255, 241, 0],
+                    "counts": [255, 255, 171, 1, 9, 1, 255]
+                }
+            },
+            "objects": [
+                {
+                    "type": "PodStand",
+                    "pos_x": 143,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 189,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Generator",
+                    "pos_x": 160,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 171,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 110,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 179,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpRight",
+                    "gun_param": 30,
+                    "pos_x": 125,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 187,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                }
+            ]
+        },
+        {
+            "number": 1,
+            "terrain_color": "green",
+            "gravity": {
+                "int": 0,
+                "frac": 160
+            },
+            "gun_shoot_probability": 80,
+            "player_start": {
+                "x": {
+                    "int": 128,
+                    "frac": 0
+                },
+                "y": {
+                    "int_hi": 0,
+                    "int": 16,
+                    "frac": 0
+                }
+            },
+            "terrain": {
+                "left_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 74, 1, 25, 1, 0, 255, 0, 1, 20, 0
+                    ],
+                    "counts": [
+                        255, 255, 175, 1, 11, 1, 23, 54, 23, 20, 15, 1, 255
+                    ]
+                },
+                "left_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 74, 1, 25, 1, 0, 255, 0, 1, 20, 0
+                    ],
+                    "counts": [
+                        255, 255, 175, 1, 11, 1, 23, 54, 23, 20, 15, 1, 255
+                    ]
+                },
+                "right_wall_1": {
+                    "x_increments": [0, 0, 0, 180, 255, 0, 1, 0, 255, 0],
+                    "counts": [255, 255, 175, 1, 27, 58, 17, 21, 24, 255]
+                },
+                "right_wall_2": {
+                    "x_increments": [0, 0, 0, 180, 255, 0, 1, 0, 255, 0],
+                    "counts": [255, 255, 175, 1, 27, 58, 17, 21, 24, 255]
+                }
+            },
+            "objects": [
+                {
+                    "type": "PodStand",
+                    "pos_x": 127,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 56,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Generator",
+                    "pos_x": 100,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 177,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 139,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 59,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 116,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 20,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 15,
+                    "pos_x": 158,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 10,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                }
+            ]
+        },
+        {
+            "number": 2,
+            "terrain_color": "cyan",
+            "gravity": {
+                "int": 0,
+                "frac": 192
+            },
+            "gun_shoot_probability": 80,
+            "player_start": {
+                "x": {
+                    "int": 128,
+                    "frac": 0
+                },
+                "y": {
+                    "int_hi": 0,
+                    "int": 16,
+                    "frac": 0
+                }
+            },
+            "flags": {
+                "invisible_landscape": true
+            },
+            "terrain": {
+                "left_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 135, 0, 255, 0, 226, 255, 0, 241, 255, 0, 1,
+                        21, 0
+                    ],
+                    "counts": [
+                        255, 255, 185, 1, 80, 10, 50, 1, 10, 30, 1, 10, 85, 10,
+                        1, 255
+                    ]
+                },
+                "left_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 135, 0, 255, 0, 226, 255, 0, 241, 255, 0, 1,
+                        21, 0
+                    ],
+                    "counts": [
+                        255, 255, 185, 1, 80, 10, 50, 1, 10, 30, 1, 10, 85, 10,
+                        1, 255
+                    ]
+                },
+                "right_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 180, 0, 233, 0, 24, 0, 255, 236, 0, 226, 0,
+                        236, 255, 0
+                    ],
+                    "counts": [
+                        255, 255, 185, 1, 19, 1, 60, 1, 20, 10, 1, 60, 1, 50, 1,
+                        9, 255
+                    ]
+                },
+                "right_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 180, 0, 233, 0, 24, 0, 255, 236, 0, 226, 0,
+                        236, 255, 0
+                    ],
+                    "counts": [
+                        255, 255, 185, 1, 19, 1, 60, 1, 20, 10, 1, 60, 1, 50, 1,
+                        9, 255
+                    ]
+                }
+            },
+            "objects": [
+                {
+                    "type": "PodStand",
+                    "pos_x": 78,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 206,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Generator",
+                    "pos_x": 164,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 195,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 120,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 177,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 151,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 33,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 157,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 33,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 163,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 33,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 125,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 94,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 103,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 145,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 27,
+                    "pos_x": 93,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 151,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 62,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 114,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 10,
+                    "pos_x": 88,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 72,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 22,
+                    "pos_x": 171,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 30,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 4,
+                    "pos_x": 129,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 10,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                }
+            ]
+        },
+        {
+            "number": 3,
+            "terrain_color": "green",
+            "gravity": {
+                "int": -1,
+                "frac": 0
+            },
+            "gun_shoot_probability": 64,
+            "player_start": {
+                "x": {
+                    "int": 128,
+                    "frac": 0
+                },
+                "y": {
+                    "int_hi": 2,
+                    "int": 208,
+                    "frac": 0
+                }
+            },
+            "flags": {
+                "reverse_gravity": true
+            },
+            "terrain": {
+                "left_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 90, 1, 17, 0, 255, 0, 1, 0, 255, 0, 25, 1, 33,
+                        0, 255, 0, 1, 0, 0
+                    ],
+                    "counts": [
+                        255, 255, 160, 1, 19, 1, 21, 38, 20, 10, 6, 20, 34, 1,
+                        20, 1, 38, 28, 36, 10, 255, 255
+                    ]
+                },
+                "left_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 90, 1, 17, 0, 255, 0, 1, 0, 255, 0, 25, 1, 33,
+                        0, 255, 0, 1, 0, 0
+                    ],
+                    "counts": [
+                        255, 255, 160, 1, 19, 1, 21, 38, 20, 10, 6, 20, 34, 1,
+                        20, 1, 38, 28, 36, 10, 255, 255
+                    ]
+                },
+                "right_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 141, 0, 226, 0, 1, 40, 0, 255, 0, 244, 0, 0
+                    ],
+                    "counts": [
+                        255, 255, 160, 1, 103, 1, 18, 24, 1, 132, 24, 20, 1,
+                        255, 255
+                    ]
+                },
+                "right_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 141, 0, 226, 0, 1, 40, 0, 255, 0, 244, 0, 0
+                    ],
+                    "counts": [
+                        255, 255, 160, 1, 103, 1, 18, 24, 1, 132, 24, 20, 1,
+                        255, 255
+                    ]
+                }
+            },
+            "objects": [
+                {
+                    "type": "PodStand",
+                    "pos_x": 142,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 217,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Generator",
+                    "pos_x": 91,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 64,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "DoorSwitchLeft",
+                    "pos_x": 172,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 81,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "DoorSwitchLeft",
+                    "pos_x": 172,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 135,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 146,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 87,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 114,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 208,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpRight",
+                    "gun_param": 6,
+                    "pos_x": 90,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 1,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 90,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 22,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 18,
+                    "pos_x": 120,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 36,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpRight",
+                    "gun_param": 31,
+                    "pos_x": 109,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 76,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 138,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 146,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 30,
+                    "pos_x": 162,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 186,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                }
+            ]
+        },
+        {
+            "number": 4,
+            "terrain_color": "red",
+            "gravity": {
+                "int": 0,
+                "frac": 224
+            },
+            "gun_shoot_probability": 48,
+            "player_start": {
+                "x": {
+                    "int": 128,
+                    "frac": 0
+                },
+                "y": {
+                    "int_hi": 0,
+                    "int": 16,
+                    "frac": 0
+                }
+            },
+            "flags": {
+                "invisible_landscape": true
+            },
+            "terrain": {
+                "left_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 88, 1, 0, 23, 0, 246, 255, 0, 10, 0, 255, 236,
+                        0, 1, 0, 246, 0, 1, 18, 0, 1, 20, 0, 1, 10, 0
+                    ],
+                    "counts": [
+                        255, 255, 165, 1, 21, 22, 1, 56, 1, 12, 28, 1, 40, 20,
+                        1, 86, 20, 14, 1, 28, 12, 1, 30, 12, 1, 82, 8, 1, 255
+                    ]
+                },
+                "left_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 88, 1, 0, 23, 0, 246, 255, 0, 10, 0, 255, 236,
+                        0, 1, 0, 246, 0, 1, 18, 0, 1, 20, 0, 1, 10, 0
+                    ],
+                    "counts": [
+                        255, 255, 165, 1, 21, 22, 1, 56, 1, 12, 28, 1, 40, 20,
+                        1, 86, 20, 14, 1, 28, 12, 1, 30, 12, 1, 82, 8, 1, 255
+                    ]
+                },
+                "right_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 147, 0, 14, 1, 0, 220, 0, 8, 0, 255, 222, 0, 1,
+                        0, 10, 1, 0, 16, 0, 1, 0, 255, 0
+                    ],
+                    "counts": [
+                        255, 255, 165, 1, 100, 1, 10, 30, 1, 40, 1, 40, 10, 1,
+                        34, 32, 44, 1, 10, 22, 1, 62, 16, 30, 12, 255
+                    ]
+                },
+                "right_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 147, 0, 14, 1, 0, 220, 0, 8, 0, 255, 222, 0, 1,
+                        0, 10, 1, 0, 16, 0, 1, 0, 255, 0
+                    ],
+                    "counts": [
+                        255, 255, 165, 1, 100, 1, 10, 30, 1, 40, 1, 40, 10, 1,
+                        34, 32, 44, 1, 10, 22, 1, 62, 16, 30, 12, 255
+                    ]
+                }
+            },
+            "objects": [
+                {
+                    "type": "PodStand",
+                    "pos_x": 162,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 141,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Generator",
+                    "pos_x": 143,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 41,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "DoorSwitchLeft",
+                    "pos_x": 164,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 37,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "DoorSwitchRight",
+                    "pos_x": 152,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 117,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 124,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 201,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 154,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 43,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 160,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 43,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 104,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 135,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 105,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 10,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 111,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 10,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 137,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 53,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 143,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 53,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 5,
+                    "pos_x": 114,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 13,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 20,
+                    "pos_x": 162,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 12,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 26,
+                    "pos_x": 134,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 131,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpRight",
+                    "gun_param": 2,
+                    "pos_x": 93,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 4,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 18,
+                    "pos_x": 142,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 0,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpRight",
+                    "gun_param": 30,
+                    "pos_x": 123,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 47,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 25,
+                    "pos_x": 172,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 99,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                }
+            ]
+        },
+        {
+            "number": 5,
+            "terrain_color": "magenta",
+            "gravity": {
+                "int": 1,
+                "frac": 0
+            },
+            "gun_shoot_probability": 32,
+            "player_start": {
+                "x": {
+                    "int": 128,
+                    "frac": 0
+                },
+                "y": {
+                    "int_hi": 0,
+                    "int": 16,
+                    "frac": 0
+                }
+            },
+            "terrain": {
+                "left_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 77, 0, 23, 1, 0, 236, 255, 0, 239, 0, 255, 0,
+                        1, 0, 255, 0, 255, 0, 11, 0
+                    ],
+                    "counts": [
+                        255, 255, 127, 1, 62, 1, 80, 40, 1, 10, 162, 1, 54, 13,
+                        20, 54, 14, 13, 31, 10, 57, 1, 255
+                    ]
+                },
+                "left_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 77, 0, 23, 1, 0, 236, 255, 0, 239, 0, 255, 0,
+                        1, 0, 255, 0, 255, 0, 11, 0
+                    ],
+                    "counts": [
+                        255, 255, 127, 1, 62, 1, 80, 40, 1, 10, 162, 1, 54, 13,
+                        20, 54, 14, 13, 31, 10, 57, 1, 255
+                    ]
+                },
+                "right_wall_1": {
+                    "x_increments": [
+                        0, 0, 0, 183, 255, 0, 1, 0, 1, 0, 231, 255, 0, 1, 0,
+                        255, 0, 235, 0, 1, 0, 1, 255, 0, 255, 0, 13, 0, 241, 0
+                    ],
+                    "counts": [
+                        255, 255, 127, 1, 43, 20, 55, 65, 20, 20, 1, 28, 34, 18,
+                        20, 10, 50, 1, 39, 44, 30, 7, 7, 56, 28, 35, 1, 22, 1,
+                        255
+                    ]
+                },
+                "right_wall_2": {
+                    "x_increments": [
+                        0, 0, 0, 183, 255, 0, 1, 0, 1, 0, 231, 255, 0, 1, 0,
+                        255, 0, 235, 0, 1, 0, 1, 255, 0, 255, 0, 13, 0, 241, 0
+                    ],
+                    "counts": [
+                        255, 255, 127, 1, 43, 20, 55, 65, 20, 20, 1, 28, 34, 18,
+                        20, 10, 50, 1, 39, 44, 30, 7, 7, 56, 28, 35, 1, 22, 1,
+                        255
+                    ]
+                }
+            },
+            "objects": [
+                {
+                    "type": "PodStand",
+                    "pos_x": 154,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 228,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Generator",
+                    "pos_x": 169,
+                    "pos_y": {
+                        "int_hi": 4,
+                        "int": 4,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "DoorSwitchRight",
+                    "pos_x": 161,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 152,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "DoorSwitchLeft",
+                    "pos_x": 190,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 93,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 154,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 248,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "Fuel",
+                    "pos_x": 193,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 87,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 26,
+                    "pos_x": 175,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 191,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 155,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 172,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 9,
+                    "pos_x": 162,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 134,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 18,
+                    "pos_x": 155,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 46,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 6,
+                    "pos_x": 123,
+                    "pos_y": {
+                        "int_hi": 3,
+                        "int": 31,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 22,
+                    "pos_x": 172,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 193,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 18,
+                    "pos_x": 172,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 168,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunUpLeft",
+                    "gun_param": 27,
+                    "pos_x": 172,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 103,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 18,
+                    "pos_x": 202,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 62,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownRight",
+                    "gun_param": 5,
+                    "pos_x": 153,
+                    "pos_y": {
+                        "int_hi": 2,
+                        "int": 57,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                },
+                {
+                    "type": "GunDownLeft",
+                    "gun_param": 14,
+                    "pos_x": 153,
+                    "pos_y": {
+                        "int_hi": 1,
+                        "int": 204,
+                        "frac": 0
+                    },
+                    "flags": {
+                        "drawn": false,
+                        "active": true
+                    }
+                }
+            ]
+        }
+    ]
+}
