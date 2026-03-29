@@ -2,7 +2,9 @@
 
 Sourced from: https://bbcmicro.co.uk/explore.php?id=432. Binary files can be found in folder `./doc/disk-image`.
 
-## !BOOT
+## Files
+
+### !BOOT
 
 - Load address: `0000`
 - Exec address: `0000`
@@ -21,7 +23,7 @@ PAGE=&1900
 CLOSE#0:CHAIN "THRUST"
 ```
 
-## THRUST
+### THRUST
 
 - Load address: `1900`
 - Exec address: `1900`
@@ -46,7 +48,7 @@ CLOSE#0:CHAIN "THRUST"
 50PAGE=&1100:CHAIN"THRUST?"
 ```
 
-## THRUST?
+### THRUST?
 
 - Load address: `1100`
 - Exec address: `1AB0`
@@ -80,26 +82,26 @@ CLOSE#0:CHAIN "THRUST"
    240REPEATUNTILGET=32:CLS:ENDPROC:
 ```
 
-## THRUST2
+### THRUST2
 
 - Load address: `2000`
 - Exec address: `2000`
 - Length: `2300`
-- Summary: Appears to contain screen shots of the main game in various different resolutions.
+- Summary: Appears to contain various sprites and screen shots of the main game in various different resolutions.
 
 ![screenshot](./screenshot.webp)
 
-## THRUST3
+### THRUST3
 
 - Load address: `1A00`
 - Exec address: `5720`
 - Length: `3D6E`
 - Summary: The main machine code binary (6502 assembler). It features a multi-stage loader and an in-place decryption
   routine. The full raw data is shown in [hexdump.txt](./hexdump.txt). The decrypted and annotated assembly code is
-  shown in [disassembly.asm](./disassembly) (sourced from https://github.com/kieranhj/thrust-disassembly). 
+  shown in [disassembly.asm](./disassembly) (sourced from https://github.com/kieranhj/thrust-disassembly).
 
 
-### Memory Map (Approximate)
+## Memory Map (Approximate)
 
 | Address Range | Component | Description |
 |---------------|-----------|-------------|
@@ -137,3 +139,63 @@ CLOSE#0:CHAIN "THRUST"
 
 - **Graphics Data (`THRUST2`)**: Found at `2000`, this area contains sprite definitions for the spaceship, pods, fuel tanks, and limpet guns. Patterns in the hexdump (e.g., `0f0f f0f0`) suggest 2-color or 4-color bitmask graphics suitable for the BBC Micro's teletext or high-res modes.
 - **Level Definitions**: Likely stored within the decrypted portion of `THRUST3`, including gravity constants and landscape data (alluded to in the instruction screen as "reverse gravity" or "invisible landscapes").
+
+### Screen dimensions
+
+the overall terrain dimensions for the game "Thrust" are as follows:
+
+  Width: 256 Characters (Columns)
+   * Variable representation: The world's horizontal position is managed by the window_xpos_INT variable (at address $0000), which is an 8-bit integer. This allows for a maximum width of 256 units before the coordinate wraps around.
+   * Unit of measurement: Each horizontal unit represents one character (8 pixels wide).
+   * Pixel Width: 256 characters × 8 pixels = 2,048 pixels.
+   * Screen context: The visible screen width is defined by the constant SCREEN_WIDTH_CHARS = 72 (approximately 576 pixels), meaning the world is roughly 3.5 times wider than the screen.
+
+  Height: 1,024 Scanlines (Rows)
+   * Variable representation: The world's vertical position is stored in Q10.8 fixed-point arithmetic (as noted in the header of disassembly.asm). The integer portion uses 10 bits (window_ypos_INT at $0003 and the lower bits of window_ypos_EXT at $0004), allowing for a total of 1,024 lines.
+   * Unit of measurement: Each vertical unit represents one scanline (1 pixel high).
+   * Screen context: Since a standard BBC Micro screen is 256 scanlines high, the terrain is approximately 4 screens deep (1,024 lines).
+   * Level variation: While the coordinate system supports 1,024 lines, the actual terrain data in level_data.txt varies by level. For example, Level 0's data sums to roughly 711 lines, while Level 5's data extends further, with object Y-coordinates reaching into the EXT = 4 range
+     (indicating heights around or slightly above 1,024 lines).
+
+#### Summary Table
+
+| Dimension | Logical Units   | Pixel Equivalent | Screen Equivalents |
+|-----------|-----------------|------------------|--------------------|
+| Width     | 256 Characters  | 2,048 Pixels     | ~3.5 Screens       |
+| Height    | 1,024 Scanlines | 1,024 Pixels     | 4 Screens          |
+
+## Terrain Wall Run-Length Encoding (RLE)
+
+The terrain wall data in *Thrust* uses a sophisticated **Run-Length Encoding (RLE) with signed increments**, optimized for the limited memory and processing power of the BBC Micro. This system allows the game to define massive, jagged cave systems using only a few dozen bytes of data.
+
+### 1. The Dual-Table Data Format
+For each level, the terrain is defined by two pairs of tables (one for the left wall and one for the right wall). 
+*   **The Count Table (e.g., Table A/C):** This stores the "Run Length"—the number of vertical scanlines a particular slope should persist.
+*   **The Increment Table (e.g., Table B/D):** This stores the "Slope"—a signed 8-bit value (delta X) that is added to the horizontal position for every scanline in that run.
+
+### 2. Incremental Accumulation
+The game engine doesn't store the entire map in RAM. Instead, it maintains a "cursor" for each wall boundary. For every vertical step (scanline) the engine performs:
+1.  **Update X:** It adds the current `increment` to the wall's `X-position`.
+2.  **Decrement Counter:** It reduces the `counter` for the current run.
+3.  **Fetch Next Segment:** When the `counter` reaches zero, it moves to the next index in the tables to load a new `count` and `increment`.
+
+### 3. The "Rolling Buffer" (RAM)
+To handle scrolling, the game maintains a **256-byte rolling buffer** in RAM (`$0400` for the left wall, `$0500` for the right).
+*   As the player flies up or down, the engine "rolls" the RLE logic forward or backward.
+*   **`terrain_process_accumulate_xpos`:** Adds increments as you move down into the world.
+*   **`terrain_process_subtract_xpos`:** Subtracts increments as you move up, effectively "rewinding" the math to keep the terrain consistent.
+
+### 4. Interleaving for High Detail (The "Triples")
+One of the most clever aspects of *Thrust*'s RLE is **interleaving**. The engine tracks **two independent cursors** (triples of `xpos`, `counter`, and `index`) for each wall boundary:
+*   **Cursor 1** processes the odd-numbered entries in the RLE tables.
+*   **Cursor 2** processes the even-numbered entries.
+*   The results are written to adjacent scanlines in the RAM buffer.
+
+This allows the terrain to have independent slopes on every other scanline, effectively **doubling the vertical detail** of the landscape without requiring a more complex data format. It is why the cave walls in *Thrust* look so jagged and organic rather than being simple straight lines.
+
+### Example from Level 0
+Looking at `level_data.txt`:
+*   **Table A (Counts):** `$FF, $AB, $01, $0F...`
+*   **Table B (Increments):** `$00, $00, $55, $01...`
+
+A segment with a count of `$FF` (255) and an increment of `0` creates a perfectly vertical wall for 255 lines. A segment with a count of `1` and an increment of `$55` (85) creates a sharp horizontal step, while a count of `$0F` (15) and an increment of `1` creates a gentle 45-degree slope.
