@@ -94,6 +94,46 @@ CLOSE#0:CHAIN "THRUST"
 - Load address: `1A00`
 - Exec address: `5720`
 - Length: `3D6E`
-- Summary: The main machine code binary (6502 assembler). It is likely not all machine code,
-  as there would be some game data encoded in the binary. The full disassembly can be found in
-  [disassembly.asm](./disassembly.asm) while [hexdump.txt](./hexdump.txt) is a conventional hexdump.
+- Summary: The main machine code binary (6502 assembler). It features a multi-stage loader and an in-place decryption
+  routine. The full raw data is shown in [hexdump.txt](./hexdump.txt). The decrypted and annotated assembly code is
+  shown in [disassembly.asm](./disassembly) (sourced from https://github.com/kieranhj/thrust-disassembly). 
+
+
+### Memory Map (Approximate)
+
+| Address Range | Component | Description |
+|---------------|-----------|-------------|
+| `0000 - 0B00` | OS / Workspace | BBC Micro system variables and BASIC workspace. |
+| `1100 - 1B43` | `THRUST?` | Game intro BASIC program and initial machine code routines. |
+| `1A00 - 576E` | `THRUST3` | Main game binary (overwrites `THRUST?` after intro). |
+| `2000 - 4300` | `THRUST2` | Game assets, including graphics and level data. |
+| `5720 - 576E` | Loader | Unencrypted entry point and decryption routine for `THRUST3`. |
+
+### Loading Process & Execution Flow
+
+1. **`!BOOT`**: Initializes the environment and chains `THRUST`.
+2. **`THRUST`**: Sets up the display mode (`MODE 7`), disables the BREAK key, and reserves memory by moving a block of code to `HIMEM`.
+3. **`THRUST?`**: Displays the mission briefing and instructions.
+   - **`CALL &1A80`**: Executes a small machine code routine embedded at the end of the BASIC program.
+   - **`*RUN THRUST3`**: Loads the main game binary at `1A00` and jumps to the entry point at `5720`.
+4. **`THRUST3` Decryption**:
+   - The routine at `5720` initializes pointers at `&80/&81` (pointing to `1A00`) and `&82/&83` (pointing to `1A01`).
+   - It executes a complex "rolling" `EOR` decryption loop to decrypt the game code in-place from `1A00` upwards.
+   - Once decrypted, it jumps to the main game loop (likely near `1A00`).
+
+### Assembly Analysis Highlights (from `disassembly.asm`)
+
+- **Initialization Loop (`5723 - 5730`)**:
+  Prints a VDU sequence stored at `5732` to set up the screen:
+  - `16 07`: `MODE 7`
+  - `17 01 00...`: VDU 23,1,0 (Disable cursor)
+- **Decryption Loop (`5718 - 571d` / `56ea - 570e`)**:
+  An obfuscated routine that uses adjacent bytes as keys for an `EOR` operation, ensuring the main game logic is not visible in a static disassembly of the binary file.
+- **System Calls**:
+  - `JSR &FFEE`: `OSWRCH` - Writes a character to the screen.
+  - `JSR &FFF4`: `OSBYTE` - Used for various system settings (e.g., flushing buffers).
+
+### Data Structures
+
+- **Graphics Data (`THRUST2`)**: Found at `2000`, this area contains sprite definitions for the spaceship, pods, fuel tanks, and limpet guns. Patterns in the hexdump (e.g., `0f0f f0f0`) suggest 2-color or 4-color bitmask graphics suitable for the BBC Micro's teletext or high-res modes.
+- **Level Definitions**: Likely stored within the decrypted portion of `THRUST3`, including gravity constants and landscape data (alluded to in the instruction screen as "reverse gravity" or "invisible landscapes").
