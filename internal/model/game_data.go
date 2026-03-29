@@ -298,6 +298,46 @@ type LevelFlags struct {
 	ReverseGravity bool `json:"reverse_gravity,omitempty"`
 }
 
+// RGBA wraps color.RGBA to provide custom JSON marshaling for color names.
+type RGBA struct {
+	color.RGBA
+}
+
+var colorNames = map[string]color.RGBA{
+	"black":   {0, 0, 0, 255},
+	"red":     {255, 0, 0, 255},
+	"green":   {0, 255, 0, 255},
+	"yellow":  {255, 255, 0, 255},
+	"blue":    {0, 0, 255, 255},
+	"magenta": {255, 0, 255, 255},
+	"cyan":    {0, 255, 255, 255},
+	"white":   {255, 255, 255, 255},
+}
+
+// MarshalJSON encodes the color as a JSON string name if known.
+func (c RGBA) MarshalJSON() ([]byte, error) {
+	for name, rgba := range colorNames {
+		if rgba == c.RGBA {
+			return json.Marshal(name)
+		}
+	}
+	// Fallback to standard RGBA representation if name not found
+	return json.Marshal(c.RGBA)
+}
+
+// UnmarshalJSON decodes a JSON string color name into an RGBA struct.
+func (c *RGBA) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err == nil {
+		if rgba, ok := colorNames[s]; ok {
+			c.RGBA = rgba
+			return nil
+		}
+	}
+	// Fallback to standard RGBA unmarshaling
+	return json.Unmarshal(data, &c.RGBA)
+}
+
 // Level holds all static data describing a single level of Thrust.
 // At runtime the game copies pointers to these arrays into zero-page
 // self-modifying-code locations (level_obj_type_addr, level_obj_pos_X_addr, etc.).
@@ -306,7 +346,7 @@ type Level struct {
 	Number uint8 `json:"number"`
 
 	// TerrainColor is the colour used for terrain pixels in this level.
-	TerrainColor string `json:"terrain_color"`
+	TerrainColor RGBA `json:"terrain_color"`
 
 	// Gravity is the per-level gravitational acceleration.
 	Gravity GravityVector `json:"gravity"`
@@ -350,9 +390,6 @@ func (level *Level) RenderTerrain() *image.RGBA {
 		}
 	}
 
-	leftColor := color.RGBA{R: 0, G: 255, B: 0, A: 255}  // Green
-	rightColor := color.RGBA{R: 255, G: 0, B: 0, A: 255} // Red
-
 	// Decode walls at logical resolution (one entry per RLE step)
 	left := level.Terrain.LeftWall1.Decode(logicalHeight, 0)
 	right := level.Terrain.RightWall1.Decode(logicalHeight, 255)
@@ -374,12 +411,12 @@ func (level *Level) RenderTerrain() *image.RGBA {
 
 		// Draw left terrain
 		for x := 0; x < int(lX)*PixelsPerCharacter; x++ {
-			img.Set(x, y, leftColor) // level.TerrainColor)
+			img.Set(x, y, level.TerrainColor.RGBA)
 		}
 
 		// Draw right terrain
 		for x := int(rX) * PixelsPerCharacter; x < width; x++ {
-			img.Set(x, y, rightColor) // level.TerrainColor)
+			img.Set(x, y, level.TerrainColor.RGBA)
 		}
 	}
 
