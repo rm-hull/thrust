@@ -1,5 +1,15 @@
 package gamedata
 
+import (
+	"image"
+	"image/color"
+)
+
+const (
+	WorldWidthCharacters = 256
+	PixelsPerCharacter   = 8
+)
+
 // TerrainWallData holds the run-length encoded description of one cave wall
 // (either left or right). The terrain system uses two interleaved streams:
 //
@@ -66,4 +76,57 @@ type TerrainData struct {
 	LeftWall2  TerrainWallData `json:"left_wall_2"`
 	RightWall1 TerrainWallData `json:"right_wall_1"`
 	RightWall2 TerrainWallData `json:"right_wall_2"`
+}
+
+func (terrain *TerrainData) Render(background color.RGBA) *image.RGBA {
+	// The logical height is the sum of all RLE segment counts.
+	// To maintain the scanline effect (terrain line + black gap),
+	// the total pixel height is LogicalHeight * 2.
+	logicalHeight := terrain.LeftWall1.Height()
+	height := logicalHeight * 2
+	if height == 0 {
+		height = 2048
+	}
+
+	width := (WorldWidthCharacters - 1) * PixelsPerCharacter
+	img := image.NewRGBA(image.Rect(0, 0, width, height))
+
+	// Fill background (black)
+	for y := range height {
+		for x := range width {
+			img.Set(x, y, color.Black)
+		}
+	}
+
+	// Decode walls at logical resolution (one entry per RLE step)
+	left := terrain.LeftWall1.Decode(logicalHeight, 0)
+	right := terrain.RightWall1.Decode(logicalHeight, 255)
+
+	for y := range height {
+		// CRT Scanline Effect: only draw on even lines
+		if y%2 != 0 {
+			continue
+		}
+
+		// Map pixel row to logical RLE step
+		logicalY := y / 2
+		if logicalY >= len(left) {
+			break
+		}
+
+		lX := left[logicalY]
+		rX := right[logicalY]
+
+		// Draw left terrain
+		for x := 0; x < int(lX)*PixelsPerCharacter; x++ {
+			img.Set(x, y, background)
+		}
+
+		// Draw right terrain
+		for x := int(rX) * PixelsPerCharacter; x < width; x++ {
+			img.Set(x, y, background)
+		}
+	}
+
+	return img
 }

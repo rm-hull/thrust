@@ -1,15 +1,5 @@
 package gamedata
 
-import (
-	"image"
-	"image/color"
-)
-
-const (
-	WorldWidthCharacters = 256
-	PixelsPerCharacter   = 8
-)
-
 // PlayerStart holds the initial world position of the player's ship at the
 // start of a level.
 type PlayerStart struct {
@@ -70,57 +60,4 @@ type Level struct {
 	// The original game terminates the list with an ObjectEnd (0xFF) sentinel,
 	// which is omitted here — the slice end serves that purpose.
 	Objects []LevelObject `json:"objects"`
-}
-
-func (level *Level) RenderTerrain() *image.RGBA {
-	// The logical height is the sum of all RLE segment counts.
-	// To maintain the scanline effect (terrain line + black gap),
-	// the total pixel height is LogicalHeight * 2.
-	logicalHeight := level.Terrain.LeftWall1.Height()
-	height := logicalHeight * 2
-	if height == 0 {
-		height = 2048
-	}
-
-	width := (WorldWidthCharacters - 1) * PixelsPerCharacter
-	img := image.NewRGBA(image.Rect(0, 0, width, height))
-
-	// Fill background (black)
-	for y := range height{
-		for x := range width {
-			img.Set(x, y, color.Black)
-		}
-	}
-
-	// Decode walls at logical resolution (one entry per RLE step)
-	left := level.Terrain.LeftWall1.Decode(logicalHeight, 0)
-	right := level.Terrain.RightWall1.Decode(logicalHeight, 255)
-
-	for y := range height{
-		// CRT Scanline Effect: only draw on even lines
-		if y%2 != 0 {
-			continue
-		}
-
-		// Map pixel row to logical RLE step
-		logicalY := y / 2
-		if logicalY >= len(left) {
-			break
-		}
-
-		lX := left[logicalY]
-		rX := right[logicalY]
-
-		// Draw left terrain
-		for x := 0; x < int(lX)*PixelsPerCharacter; x++ {
-			img.Set(x, y, level.TerrainColor.RGBA)
-		}
-
-		// Draw right terrain
-		for x := int(rX) * PixelsPerCharacter; x < width; x++ {
-			img.Set(x, y, level.TerrainColor.RGBA)
-		}
-	}
-
-	return img
 }

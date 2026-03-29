@@ -12,7 +12,7 @@ import (
 
 func main() {
 	for i, level := range gamedata.Levels {
-		img := level.RenderTerrain()
+		img := level.Terrain.Render(level.TerrainColor.RGBA)
 		filename := fmt.Sprintf("level_%d_terrain.png", i)
 		outputPath := filepath.Join("doc", "terrain", filename)
 		savePNG(img, outputPath)
