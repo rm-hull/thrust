@@ -7,7 +7,7 @@ import (
 
 const (
 	WorldWidthCharacters = 256
-	PixelsPerCharacter   = 8
+	PixelsPerCharacter   = 4
 )
 
 // TerrainWallData holds the run-length encoded description of one cave wall
