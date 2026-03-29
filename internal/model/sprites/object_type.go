@@ -1,4 +1,4 @@
-package gamedata
+package sprites
 
 import (
 	"encoding/json"
@@ -38,10 +38,6 @@ var objectTypeNames = map[ObjectType]string{
 }
 
 var objectTypeValues map[string]ObjectType
-
-func init() {
-
-}
 
 // String returns the human-readable name for the object type.
 func (o ObjectType) String() string {

@@ -16,11 +16,6 @@ var bytes []byte
 var Levels []Level
 
 func init() {
-	objectTypeValues = make(map[string]ObjectType, len(objectTypeNames))
-	for k, v := range objectTypeNames {
-		objectTypeValues[v] = k
-	}
-
 	var gameData GameData
 	err := json.Unmarshal(bytes, &gameData)
 	if err != nil {
