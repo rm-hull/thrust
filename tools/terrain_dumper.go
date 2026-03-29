@@ -7,11 +7,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/rm-hull/thrust/internal/model"
+	gamedata "github.com/rm-hull/thrust/internal/model/gamedata"
 )
 
 func main() {
-	for i, level := range model.Levels {
+	for i, level := range gamedata.Levels {
 		img := level.RenderTerrain()
 		filename := fmt.Sprintf("level_%d_terrain.png", i)
 		outputPath := filepath.Join("doc", "terrain", filename)
