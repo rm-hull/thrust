@@ -2,7 +2,10 @@ module github.com/rm-hull/thrust
 
 go 1.26
 
-require github.com/hajimehoshi/ebiten/v2 v2.9.9
+require (
+	github.com/hajimehoshi/ebiten/v2 v2.9.9
+	golang.org/x/image v0.38.0
+)
 
 require (
 	github.com/ebitengine/gomobile v0.0.0-20260211053922-3d992dae95d1 // indirect
