@@ -1,0 +1,103 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install packages
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential libalut-dev libasound2-dev libc6-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxxf86vm-dev mesa-utils pkg-config xorg-dev xvfb
+
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-cache
+          restore-keys: ${{ runner.os }}-apt-cache
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.25"
+
+      - name: Test
+        env:
+          DISPLAY: ":99.0"
+        run: |
+          xvfb-run --auto-servernum go test -race -v -coverprofile=coverage.out ./...
+
+      - name: Collect test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: ./test-reports/
+
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        continue-on-error: true
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.out
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v9
+
+      - name: Build
+        env:
+          GOOS: js
+          GOARCH: wasm
+        run: go build -v -o web/asteroids.wasm
+
+      - name: Copy files
+        run: cp -av $(go env GOROOT)/lib/wasm/wasm_exec.js web/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-artifacts
+          path: ./web
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: web-artifacts
+          path: web/
+
+      - name: Configure Github Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload WASM artifacts to Github Pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: web/
+
+      - id: deployment
+        name: Deploy to Github Pages
+        uses: actions/deploy-pages@v5
