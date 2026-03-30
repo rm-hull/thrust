@@ -30,7 +30,9 @@ func savePNG(img image.Image, filename string) {
 	if err != nil {
 		panic(err)
 	}
-	defer f.Close()
+	defer func() {
+		_ = f.Close()
+	}()
 
 	if err := png.Encode(f, img); err != nil {
 		panic(err)
