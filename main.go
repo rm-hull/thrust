@@ -1,39 +1,77 @@
 package main
 
 import (
-	"image/color"
-
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/rm-hull/thrust/resources"
+	"github.com/rm-hull/thrust/internal/scene"
+	"github.com/rm-hull/thrust/internal/ui"
 )
 
-type Game struct{}
-
-func (g *Game) Update() error {
-	return nil
+type Game struct {
+	manager *scene.Manager
 }
 
-func (g *Game) Draw(screen *ebiten.Image) {
-	screen.Fill(color.Black)
-
-	// convert the image to an ebiten image and draw it on the screen
-	op := &ebiten.DrawImageOptions{}
-
-	// scale the image to fit the screen
-	scaleX := float64(1024) / float64(resources.LoadingPageGraphic.Bounds().Dx())
-	scaleY := float64(768) / float64(resources.LoadingPageGraphic.Bounds().Dy())
-	op.GeoM.Scale(scaleX, scaleY)
-
-	screen.DrawImage(ebiten.NewImageFromImage(resources.LoadingPageGraphic), op)
+func (game *Game) Update() error {
+	return game.manager.Update()
 }
 
-func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
+func (game *Game) Draw(screen *ebiten.Image) {
+	game.manager.Draw(screen)
+}
+
+func (game *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return 1024, 768
 }
 
 func main() {
-	g := &Game{}
-	err := ebiten.RunGame(g)
+
+	font := ui.NewMonoFace(14)
+
+	introLines := []string{
+		"SYSTEM BOOT... OK",
+		"",
+		"Year 2157. Thrust[Reboot]",
+		"",
+		"The Mission:",
+		"The Resistance is about to launch a major offensive against the Empire. In preparation for this, they have captured",
+		"several starships, but they lack the essential power sources for these formidable craft, Klystron Pods. You have",
+		"been commissioned by the Resistance to steal these pods from the Empire's storage planets. To do so, you must locate",
+		"the pod, hover just above it, activate your spaceship's tractor beam and thrust away from the pod.",
+		"",
+		"Once the beam has locked onto the pod, you can deactivate the tractor beam. You must then carry the pod away from",
+		"the planet. You receive a bonus at the end of each successful mission. Note that some planets have ¢reverse gravity¢",
+		"or ¢invisible landscapes¢.",
+		"",
+		"The Planet's Reactor:",
+		"Each planet has a reactor providing power for the limpet guns. Shooting the reactor will damage it, and the guns",
+		"will cease firing until power can be restored. The more damage done, the longer this will take. If you shoot the",
+		"reactor repeatedly, it will become critically damaged. You will then have a limited amount of time to escape before",
+		"the reactor explodes and the planet is destroyed. If this happens, and you have not collected the pod, then the",
+		"mission has failed. If you retrieve the pod, send the reactor into its critical phase and leave the planet safely,",
+		"you receive an extra bonus of 2000 points.",
+		"",
+		"Automatic Limpet Guns:",
+		"These guns are the planets' defence system. Accurate shooting from your spaceship will destroy the limpet guns.",
+		"",
+		"Fuel Tanks:",
+		"To collect fuel, hover just above a fuel tank and activate the tractor beam.",
+		"",
+		"Scoring:",
+		"Destroying a limpet gun .... 750 points",
+		"Destroying a fuel tank ..... 150 points",
+		"Collecting a fuel tank ..... 300 points",
+		"An extra spaceship is awarded for every 10000 points scored.",
+		"",
+		"Copyright (C) Superior Software 1986                                                  [PRESS SPACE TO CONTINUE]",
+	}
+
+	makeTerminal := func() scene.Scene {
+		return scene.NewTerminalScene(introLines, font, func() scene.Scene { return nil })
+	}
+
+	splash := scene.NewSplashScene(5*60, makeTerminal)
+
+	game := &Game{manager: scene.NewManager(splash)}
+	err := ebiten.RunGame(game)
 	if err != nil {
 		panic(err)
 	}
