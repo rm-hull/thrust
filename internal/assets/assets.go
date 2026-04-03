@@ -1,8 +1,8 @@
-package resources
+package assets
 
 import (
 	"bytes"
-	_ "embed"
+	"embed"
 	"image"
 
 	"golang.org/x/image/webp"
@@ -25,3 +25,9 @@ func init() {
 
 //go:embed fonts/JetBrainsMono-Regular.ttf
 var MonoFontData []byte
+
+//go:embed images/sprites/ship_*.png
+var ShipFS embed.FS
+
+//go:embed images/level-objects/*.png
+var LevelObjectsFS embed.FS

@@ -1,14 +1,12 @@
 package sprites
 
 import (
-	"embed"
 	"fmt"
 	"image"
 	_ "image/png"
-)
 
-//go:embed fuel.png gun_*.png pod*.png powerPlant.png shield.png switch_*.png
-var objectsFS embed.FS
+	"github.com/rm-hull/thrust/internal/assets"
+)
 
 // ObjectImages maps object types to their corresponding sprites.
 var ObjectImages map[ObjectType]image.Image
@@ -61,7 +59,7 @@ func init() {
 }
 
 func loadSprite(filename string) (image.Image, error) {
-	f, err := objectsFS.Open(filename)
+	f, err := assets.LevelObjectsFS.Open(filename)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open sprite %s: %w", filename, err)
 	}

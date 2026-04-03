@@ -5,7 +5,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/rm-hull/thrust/resources"
+	"github.com/rm-hull/thrust/internal/assets"
 )
 
 const splashFadeTicks = 60 * 2
@@ -35,11 +35,11 @@ func (s *SplashScene) Draw(screen *ebiten.Image) {
 	screen.Fill(color.Black)
 
 	op := &ebiten.DrawImageOptions{}
-	scaleX := float64(screen.Bounds().Dx()) / float64(resources.SplashImage.Bounds().Dx())
-	scaleY := float64(screen.Bounds().Dy()) / float64(resources.SplashImage.Bounds().Dy())
+	scaleX := float64(screen.Bounds().Dx()) / float64(assets.SplashImage.Bounds().Dx())
+	scaleY := float64(screen.Bounds().Dy()) / float64(assets.SplashImage.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
 
-	screen.DrawImage(ebiten.NewImageFromImage(resources.SplashImage), op)
+	screen.DrawImage(ebiten.NewImageFromImage(assets.SplashImage), op)
 
 	if s.tick < s.fadeAfter {
 		return

@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
-	"github.com/rm-hull/thrust/resources"
+	"github.com/rm-hull/thrust/internal/assets"
 )
 
 var monoFace *text.GoTextFaceSource
@@ -16,7 +16,7 @@ func LoadMonospaceFont() *text.GoTextFaceSource {
 		return monoFace
 	}
 
-	src, err := text.NewGoTextFaceSource(bytes.NewReader(resources.MonoFontData))
+	src, err := text.NewGoTextFaceSource(bytes.NewReader(assets.MonoFontData))
 	if err != nil {
 		log.Fatalf("failed to load monospace font: %v", err)
 	}
