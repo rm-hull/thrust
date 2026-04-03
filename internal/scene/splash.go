@@ -11,6 +11,7 @@ import (
 const splashFadeTicks = 60 * 2
 
 type SplashScene struct {
+	done      bool
 	fadeAfter int
 	tick      int
 	nextFn    func() Scene
@@ -24,8 +25,11 @@ func NewSplashScene(fadeAfter int, nextFn func() Scene) *SplashScene {
 }
 
 func (s *SplashScene) Update() (Scene, error) {
+	if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsKeyPressed(ebiten.KeyEnter) {
+		s.done = true
+	}
 	s.tick++
-	if s.tick >= s.fadeAfter+splashFadeTicks {
+	if s.tick >= s.fadeAfter+splashFadeTicks || s.done {
 		return s.nextFn(), nil
 	}
 	return nil, nil

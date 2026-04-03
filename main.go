@@ -64,8 +64,14 @@ func main() {
 		"Copyright (C) Superior Software 1986                                                  [PRESS SPACE TO CONTINUE]",
 	}
 
+	makeGameLoop := func() scene.Scene {
+		return scene.NewTerminalScene([]string{"Game goes here..."}, font, func() scene.Scene {
+			return nil
+		})
+	}
+
 	makeTerminal := func() scene.Scene {
-		return scene.NewTerminalScene(introLines, font, func() scene.Scene { return nil })
+		return scene.NewTerminalScene(introLines, font, makeGameLoop)
 	}
 
 	splash := scene.NewSplashScene(5*60, makeTerminal)

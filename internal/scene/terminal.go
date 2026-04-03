@@ -12,9 +12,7 @@ import (
 type TerminalScene struct {
 	typewriter *ui.Typewriter
 	nextFn     func() Scene
-	waitTicks  int // pause after text finishes before transitioning
-	done       bool
-	doneTick   int
+	tick       int
 	font       *text.GoTextFace
 	cursor     *ui.Cursor
 }
@@ -24,26 +22,16 @@ func NewTerminalScene(lines []string, font *text.GoTextFace, nextFn func() Scene
 		typewriter: ui.NewTypewriter(lines, 2),
 		font:       font,
 		nextFn:     nextFn,
-		waitTicks:  3 * 60, // 3 second pause after text completes
 		cursor:     ui.NewCursor(),
 	}
 }
 
 func (s *TerminalScene) Update() (Scene, error) {
-	if !s.done {
-		s.typewriter.Update()
-		// Allow skipping with space/enter
-		if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsKeyPressed(ebiten.KeyEnter) {
-			s.done = true
-		}
-		if s.typewriter.Done() {
-			s.done = true
-		}
-	} else {
-		s.doneTick++
-		if s.doneTick >= s.waitTicks {
-			return s.nextFn(), nil
-		}
+	s.tick++
+	s.typewriter.Update()
+	// Allow skipping with space/enter
+	if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsKeyPressed(ebiten.KeyEnter) {
+		return s.nextFn(), nil
 	}
 	return nil, nil
 }
@@ -63,7 +51,7 @@ func (s *TerminalScene) Draw(screen *ebiten.Image) {
 	}
 
 	// Blinking cursor
-	if s.doneTick/30%2 == 0 || !s.done {
+	if s.tick/30%2 == 0 || !s.typewriter.Done() {
 		s.cursor.Draw(screen, lines, s.font, padding, lineHeight)
 	}
 }
