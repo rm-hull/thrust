@@ -3,7 +3,6 @@ package gamedata
 import (
 	"image"
 
-	"github.com/rm-hull/thrust/internal/model/sprites"
 	"github.com/rm-hull/thrust/internal/ui"
 )
 
@@ -12,7 +11,7 @@ import (
 // this struct collects them for readability.
 type LevelObject struct {
 	// Type identifies what kind of object this is.
-	Type sprites.ObjectType `json:"type"`
+	Type ObjectType `json:"type"`
 
 	// GunParam encodes gun direction/behaviour bits (only meaningful for gun types).
 	// Bits [4:2] are stored in gun_param_L0084; bits [1:0] index into gun_param_table.
@@ -48,7 +47,7 @@ func (obj *LevelObject) Draw(img *image.RGBA) {
 	// Draw the object sprite at its current position.
 	// The original game uses self-modifying code to update the sprite plot
 	// address each frame; here we just store it in the object struct.
-	sprite, exists := sprites.ObjectImages[obj.Type]
+	sprite, exists := ObjectImages[obj.Type]
 	if !exists {
 		return
 	}

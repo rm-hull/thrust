@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 
 	gamedata "github.com/rm-hull/thrust/internal/model/gamedata"
-	"github.com/rm-hull/thrust/internal/model/sprites"
 	"github.com/rm-hull/thrust/internal/ui"
 )
 
@@ -25,7 +24,7 @@ func main() {
 		if level.Flags.ReverseGravity {
 			startY = (int(level.PlayerStart.Y.Float64())) * 2
 		}
-		ui.DrawImageAt(img, sprites.ShipImages[0], startX, startY)
+		ui.DrawImageAt(img, gamedata.ShipImages[0], startX, startY)
 
 		filename := fmt.Sprintf("level_%d_terrain.png", i)
 		outputPath := filepath.Join("doc", "terrain", filename)

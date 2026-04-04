@@ -1,4 +1,4 @@
-package sprites
+package gamedata
 
 import (
 	"encoding/json"
