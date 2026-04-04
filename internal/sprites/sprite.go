@@ -18,12 +18,11 @@ type Sprite struct {
 	Size         *geometry.Dimension
 	Image        *ebiten.Image
 	screenBounds *geometry.Dimension
-	wraparound   bool
 	ColorModel   colorm.ColorM
 	DrawOptions  *colorm.DrawImageOptions
 }
 
-func NewSprite(screenBounds *geometry.Dimension, image *ebiten.Image, wraparound bool) *Sprite {
+func NewSprite(screenBounds *geometry.Dimension, image *ebiten.Image) *Sprite {
 	bounds := image.Bounds()
 	centre := geometry.Vector{
 		X: float64(bounds.Dx()) / 2,
@@ -41,7 +40,6 @@ func NewSprite(screenBounds *geometry.Dimension, image *ebiten.Image, wraparound
 		Size:         Size(image),
 		Image:        image,
 		screenBounds: screenBounds,
-		wraparound:   wraparound,
 		ColorModel:   colorm.ColorM{},
 		DrawOptions:  &colorm.DrawImageOptions{},
 	}
@@ -59,9 +57,6 @@ func (s *Sprite) Reset() {
 func (s *Sprite) Update() error {
 	s.Orientation += s.Rotation
 	s.Position.Add(s.Velocity)
-	if s.wraparound {
-		s.checkEdges()
-	}
 	return nil
 }
 
@@ -79,36 +74,8 @@ func (s *Sprite) Draw(screen *ebiten.Image) {
 	s.DrawOptions.GeoM.Translate(s.Position.X, s.Position.Y)
 	colorm.DrawImage(screen, s.Image, s.ColorModel, s.DrawOptions)
 
-	if s.wraparound {
-		s.DrawOptions.GeoM.Translate(s.screenBounds.W, 0)
-		colorm.DrawImage(screen, s.Image, s.ColorModel, s.DrawOptions)
-
-		s.DrawOptions.GeoM.Translate(-s.screenBounds.W, +s.screenBounds.H)
-		colorm.DrawImage(screen, s.Image, s.ColorModel, s.DrawOptions)
-
-		s.DrawOptions.GeoM.Translate(-s.screenBounds.W, -s.screenBounds.H)
-		colorm.DrawImage(screen, s.Image, s.ColorModel, s.DrawOptions)
-
-		s.DrawOptions.GeoM.Translate(+s.screenBounds.W, -s.screenBounds.H)
-		colorm.DrawImage(screen, s.Image, s.ColorModel, s.DrawOptions)
-	}
-
 	s.ColorModel.Reset()
 	s.DrawOptions.GeoM.Reset()
-}
-
-func (s *Sprite) checkEdges() {
-	if s.Position.X > s.screenBounds.W {
-		s.Position.X = 0
-	} else if s.Position.X < -s.Size.W {
-		s.Position.X = s.screenBounds.W - s.Size.W
-	}
-
-	if s.Position.Y > s.screenBounds.H {
-		s.Position.Y = 0
-	} else if s.Position.Y < -s.Size.H {
-		s.Position.Y = s.screenBounds.H - s.Size.H
-	}
 }
 
 func (s *Sprite) MoveForward(acceleration, maxSpeed float64) {
