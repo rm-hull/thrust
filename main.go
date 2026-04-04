@@ -1,16 +1,37 @@
 package main
 
 import (
+	"errors"
+
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/rm-hull/thrust/internal/scene"
 	"github.com/rm-hull/thrust/internal/ui"
 )
 
 type Game struct {
-	manager *scene.Manager
+	manager    *scene.Manager
+	fullscreen bool
+	paused     bool
 }
 
 func (game *Game) Update() error {
+	if inpututil.IsKeyJustPressed(ebiten.KeyQ) {
+		return errors.New("dejar de ser un desertor")
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyF) {
+		game.fullscreen = !game.fullscreen
+		ebiten.SetFullscreen(game.fullscreen)
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyP) {
+		game.paused = !game.paused
+	}
+
+	if game.paused {
+		return nil
+	}
 	return game.manager.Update()
 }
 
