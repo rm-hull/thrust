@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image"
 	_ "image/png"
+	"path/filepath"
 
 	"github.com/rm-hull/thrust/internal/assets"
 )
@@ -42,7 +43,8 @@ func init() {
 	}
 
 	for _, m := range mappings {
-		img, err := loadSprite(m.filename)
+		path := filepath.Join("images", "level-objects", m.filename)
+		img, err := loadSprite(path)
 		if err != nil {
 			panic(err)
 		}
@@ -50,18 +52,18 @@ func init() {
 	}
 
 	var err error
-	if PodImage, err = loadSprite("pod.png"); err != nil {
+	if PodImage, err = loadSprite(filepath.Join("images", "level-objects", "pod.png")); err != nil {
 		panic(err)
 	}
-	if ShieldImage, err = loadSprite("shield.png"); err != nil {
+	if ShieldImage, err = loadSprite(filepath.Join("images", "level-objects", "shield.png")); err != nil {
 		panic(err)
 	}
 }
 
-func loadSprite(filename string) (image.Image, error) {
-	f, err := assets.LevelObjectsFS.Open(filename)
+func loadSprite(path string) (image.Image, error) {
+	f, err := assets.LevelObjectsFS.Open(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to open sprite %s: %w", filename, err)
+		return nil, fmt.Errorf("failed to open sprite %s: %w", path, err)
 	}
 	defer func() {
 		_ = f.Close()
@@ -69,7 +71,7 @@ func loadSprite(filename string) (image.Image, error) {
 
 	img, _, err := image.Decode(f)
 	if err != nil {
-		return nil, fmt.Errorf("failed to decode sprite %s: %w", filename, err)
+		return nil, fmt.Errorf("failed to decode sprite %s: %w", path, err)
 	}
 	return img, nil
 }
