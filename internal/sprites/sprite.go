@@ -8,21 +8,21 @@ import (
 )
 
 type Sprite struct {
-	Position     *geometry.Vector
-	Velocity     *geometry.Vector
-	Orientation  float64
-	Direction    float64
-	Speed        float64
-	Rotation     float64
-	Centre       *geometry.Vector
-	Size         *geometry.Dimension
-	Image        *ebiten.Image
-	screenBounds *geometry.Dimension
-	ColorModel   colorm.ColorM
-	DrawOptions  *colorm.DrawImageOptions
+	Position    *geometry.Vector
+	Velocity    *geometry.Vector
+	Gravity     float64
+	Orientation float64
+	Direction   float64
+	Speed       float64
+	Rotation    float64
+	Centre      *geometry.Vector
+	Size        *geometry.Dimension
+	Image       *ebiten.Image
+	ColorModel  colorm.ColorM
+	DrawOptions *colorm.DrawImageOptions
 }
 
-func NewSprite(screenBounds *geometry.Dimension, image *ebiten.Image) *Sprite {
+func NewSprite(image *ebiten.Image) *Sprite {
 	bounds := image.Bounds()
 	centre := geometry.Vector{
 		X: float64(bounds.Dx()) / 2,
@@ -30,18 +30,18 @@ func NewSprite(screenBounds *geometry.Dimension, image *ebiten.Image) *Sprite {
 	}
 
 	return &Sprite{
-		Position:     geometry.Zero(),
-		Velocity:     geometry.Zero(),
-		Orientation:  0,
-		Direction:    0,
-		Speed:        0,
-		Rotation:     0,
-		Centre:       &centre,
-		Size:         Size(image),
-		Image:        image,
-		screenBounds: screenBounds,
-		ColorModel:   colorm.ColorM{},
-		DrawOptions:  &colorm.DrawImageOptions{},
+		Position:    geometry.Zero(),
+		Velocity:    geometry.Zero(),
+		Gravity:     0,
+		Orientation: 0,
+		Direction:   0,
+		Speed:       0,
+		Rotation:    0,
+		Centre:      &centre,
+		Size:        Size(image),
+		Image:       image,
+		ColorModel:  colorm.ColorM{},
+		DrawOptions: &colorm.DrawImageOptions{},
 	}
 }
 
@@ -56,6 +56,7 @@ func (s *Sprite) Reset() {
 
 func (s *Sprite) Update() error {
 	s.Orientation += s.Rotation
+	s.Velocity.Y += s.Gravity
 	s.Position.Add(s.Velocity)
 	return nil
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/rm-hull/thrust/internal/model/gamedata"
 	"github.com/rm-hull/thrust/internal/scene"
 	"github.com/rm-hull/thrust/internal/ui"
 )
@@ -86,7 +87,7 @@ func main() {
 	}
 
 	makeGameLoop := func() scene.Scene {
-		return scene.NewTerminalScene([]string{"Game goes here..."}, font, func() scene.Scene {
+		return scene.NewGameLoop(gamedata.Levels[2], func() scene.Scene {
 			return nil
 		})
 	}
