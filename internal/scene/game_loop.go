@@ -4,7 +4,6 @@ import (
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/rm-hull/thrust/internal/geometry"
 	"github.com/rm-hull/thrust/internal/model/gamedata"
 	"github.com/rm-hull/thrust/internal/sprites"
 )
@@ -47,7 +46,7 @@ func HandleMovement(player *sprites.Sprite, maxSpeed float64) {
 
 func (s *GameLoopScene) Update() (Scene, error) {
 
-	HandleMovement(s.player, 10)
+	HandleMovement(s.player, 3)
 
 	err := s.player.Update()
 	if err != nil {
@@ -56,33 +55,31 @@ func (s *GameLoopScene) Update() (Scene, error) {
 	return nil, nil
 }
 
-func DrawObject(img *ebiten.Image, obj gamedata.LevelObject, offset *geometry.Vector) {
-
-	if !obj.Flags.Active {
-		return
-	}
-
-	// Draw the object sprite at its current position.
-	// The original game uses self-modifying code to update the sprite plot
-	// address each frame; here we just store it in the object struct.
-	sprite, exists := gamedata.ObjectImages[obj.Type]
-	if !exists {
-		return
-	}
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(-offset.X+float64(obj.PosX)*gamedata.PixelsPerCharacter, -offset.Y+(255+255+(obj.PosY.Float64())*2))
-	img.DrawImage(ebiten.NewImageFromImage(sprite), op)
-}
-
 func (s *GameLoopScene) Draw(screen *ebiten.Image) {
 
 	// Draw terrain
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(-s.player.Position.X, -s.player.Position.Y)
+	op.GeoM.Translate(-s.player.Position.X+(float64(screen.Bounds().Dx())/2), -s.player.Position.Y+(float64(screen.Bounds().Dy())/2))
 	screen.DrawImage(s.terrain, op)
 
+	// Draw level objects
 	for _, obj := range s.level.Objects {
-		DrawObject(screen, obj, s.player.Position)
+
+		if !obj.Flags.Active {
+			continue
+		}
+
+		sprite, exists := gamedata.ObjectImages[obj.Type]
+		if !exists {
+			continue
+		}
+
+		x := float64(obj.PosX) * gamedata.PixelsPerCharacter
+		y := (255 + 255 + (obj.PosY.Float64())*2)
+
+		op.GeoM.Translate(x, y)
+		screen.DrawImage(ebiten.NewImageFromImage(sprite), op)
+		op.GeoM.Translate(-x, -y)
 	}
 
 	// Draw player
