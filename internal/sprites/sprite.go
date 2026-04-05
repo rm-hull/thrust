@@ -10,6 +10,7 @@ import (
 type Sprite struct {
 	Position    *geometry.Vector
 	Velocity    *geometry.Vector
+	Gravity     float64
 	Orientation float64
 	Direction   float64
 	Speed       float64
@@ -31,6 +32,7 @@ func NewSprite(image *ebiten.Image) *Sprite {
 	return &Sprite{
 		Position:    geometry.Zero(),
 		Velocity:    geometry.Zero(),
+		Gravity:     0,
 		Orientation: 0,
 		Direction:   0,
 		Speed:       0,
@@ -54,6 +56,7 @@ func (s *Sprite) Reset() {
 
 func (s *Sprite) Update() error {
 	s.Orientation += s.Rotation
+	s.Velocity.Y += s.Gravity
 	s.Position.Add(s.Velocity)
 	return nil
 }

@@ -87,7 +87,7 @@ func main() {
 	}
 
 	makeGameLoop := func() scene.Scene {
-		return scene.NewGameLoop(gamedata.Levels[5], func() scene.Scene {
+		return scene.NewGameLoop(gamedata.Levels[2], func() scene.Scene {
 			return nil
 		})
 	}

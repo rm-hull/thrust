@@ -20,6 +20,7 @@ func NewGameLoop(level gamedata.Level, nextFn func() Scene) *GameLoopScene {
 	player := sprites.NewSprite(ebiten.NewImageFromImage(gamedata.ShipImages[8]))
 	player.Position.X = (level.PlayerStart.X.Float64()) * gamedata.PixelsPerCharacter
 	player.Position.Y = (255 + 255 + (level.PlayerStart.Y.Float64())) * 2
+	player.Gravity = 0.03
 
 	return &GameLoopScene{
 		level:   level,
@@ -29,7 +30,7 @@ func NewGameLoop(level gamedata.Level, nextFn func() Scene) *GameLoopScene {
 	}
 }
 
-func HandleMovement(player *sprites.Sprite, maxSpeed float64) {
+func HandleMovement(player *sprites.Sprite) {
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
 		player.Direction -= math.Pi / float64(ebiten.TPS())
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
@@ -40,13 +41,13 @@ func HandleMovement(player *sprites.Sprite, maxSpeed float64) {
 
 	// Thrusting?
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		player.MoveForward(0.2, maxSpeed)
+		player.MoveForward(0.15, 2)
 	}
 }
 
 func (s *GameLoopScene) Update() (Scene, error) {
 
-	HandleMovement(s.player, 3)
+	HandleMovement(s.player)
 
 	err := s.player.Update()
 	if err != nil {
