@@ -15,39 +15,76 @@ type GameLoopScene struct {
 	terrain *ebiten.Image
 }
 
-func NewGameLoop(level gamedata.Level, nextFn func() Scene) *GameLoopScene {
+func NewGameLoop(nextFn func() Scene) *GameLoopScene {
 
-	player := sprites.NewSprite(ebiten.NewImageFromImage(gamedata.ShipImages[8]))
-	player.Position.X = level.PlayerStart.X.Float64() * gamedata.PixelsPerCharacter
-	player.Position.Y = 255 + 255 + 255 + 255 + level.PlayerStart.Y.Float64()*2
-	player.Gravity = 0.03
-
-	return &GameLoopScene{
-		level:   level,
-		nextFn:  nextFn,
-		player:  player,
-		terrain: ebiten.NewImageFromImage(level.Terrain.Render(level.TerrainColor.RGBA)),
+	scene := &GameLoopScene{
+		level:  gamedata.Levels[0],
+		nextFn: nextFn,
+		player: sprites.NewSprite(ebiten.NewImageFromImage(gamedata.ShipImages[8])),
 	}
+
+	scene.Reset()
+	return scene
 }
 
-func HandleMovement(player *sprites.Sprite) {
+func (s *GameLoopScene) HandleMovement() {
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		player.Direction -= math.Pi / float64(ebiten.TPS())
+		s.player.Direction -= math.Pi / float64(ebiten.TPS())
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		player.Direction += math.Pi / float64(ebiten.TPS())
+		s.player.Direction += math.Pi / float64(ebiten.TPS())
 	}
-
-	player.Orientation = player.Direction
+	s.player.Orientation = s.player.Direction
 
 	// Thrusting?
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		player.MoveForward(0.15, 2)
+		s.player.MoveForward(0.15, 2)
+	}
+}
+
+func (s *GameLoopScene) LevelChange() {
+
+	if ebiten.IsKeyPressed(ebiten.Key0) {
+		s.level = gamedata.Levels[0]
+		s.Reset()
+	} else if ebiten.IsKeyPressed(ebiten.Key1) {
+		s.level = gamedata.Levels[1]
+		s.Reset()
+	} else if ebiten.IsKeyPressed(ebiten.Key2) {
+		s.level = gamedata.Levels[2]
+		s.Reset()
+	} else if ebiten.IsKeyPressed(ebiten.Key3) {
+		s.level = gamedata.Levels[3]
+		s.Reset()
+	} else if ebiten.IsKeyPressed(ebiten.Key4) {
+		s.level = gamedata.Levels[4]
+		s.Reset()
+	} else if ebiten.IsKeyPressed(ebiten.Key5) {
+		s.level = gamedata.Levels[5]
+		s.Reset()
+	}
+}
+
+func (s *GameLoopScene) Reset() {
+	s.terrain = ebiten.NewImageFromImage(s.level.Terrain.Render(s.level.TerrainColor.RGBA))
+
+	s.player.Reset()
+	s.player.Position.X = s.level.PlayerStart.X.Float64() * gamedata.PixelsPerCharacter
+	s.player.Position.Y = 255 + 255 + 255 + 255 + s.level.PlayerStart.Y.Float64()*2
+	s.player.Gravity = 0.03
+	s.player.Orientation = -math.Pi / 2
+	s.player.Direction = -math.Pi / 2
+
+	// Reverse gravity levels start with the player on the ceiling and gravity pulling upward
+	if s.level.Flags.ReverseGravity {
+		s.player.Position.Y = (s.level.PlayerStart.Y.Float64()) * 2
+		s.player.Gravity = -s.player.Gravity
 	}
 }
 
 func (s *GameLoopScene) Update() (Scene, error) {
 
-	HandleMovement(s.player)
+	s.LevelChange()
+	s.HandleMovement()
 
 	err := s.player.Update()
 	if err != nil {
