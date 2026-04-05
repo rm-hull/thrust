@@ -18,8 +18,8 @@ type GameLoopScene struct {
 func NewGameLoop(level gamedata.Level, nextFn func() Scene) *GameLoopScene {
 
 	player := sprites.NewSprite(ebiten.NewImageFromImage(gamedata.ShipImages[8]))
-	player.Position.X = (level.PlayerStart.X.Float64()) * gamedata.PixelsPerCharacter
-	player.Position.Y = (255 + 255 + (level.PlayerStart.Y.Float64())) * 2
+	player.Position.X = level.PlayerStart.X.Float64() * gamedata.PixelsPerCharacter
+	player.Position.Y = 255 + 255 + 255 + 255 + level.PlayerStart.Y.Float64()*2
 	player.Gravity = 0.03
 
 	return &GameLoopScene{
@@ -58,9 +58,12 @@ func (s *GameLoopScene) Update() (Scene, error) {
 
 func (s *GameLoopScene) Draw(screen *ebiten.Image) {
 
+	midX := float64(screen.Bounds().Dx()) / 2
+	midY := float64(screen.Bounds().Dy()) / 2
+
 	// Draw terrain
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(-s.player.Position.X+(float64(screen.Bounds().Dx())/2), -s.player.Position.Y+(float64(screen.Bounds().Dy())/2))
+	op.GeoM.Translate(midX-s.player.Position.X, midY-s.player.Position.Y)
 	screen.DrawImage(s.terrain, op)
 
 	// Draw level objects
@@ -76,9 +79,15 @@ func (s *GameLoopScene) Draw(screen *ebiten.Image) {
 		}
 
 		x := float64(obj.PosX) * gamedata.PixelsPerCharacter
-		y := (255 + 255 + (obj.PosY.Float64())*2)
+		y := 255 + 255 + obj.PosY.Float64()*2
 
 		op.GeoM.Translate(x, y)
+		// Calling ebiten.NewImageFromImage inside the Draw method is a significant performance issue.
+		// This function creates a new GPU texture from the source image.Image every frame. For a level
+		// with many objects, this will lead to severe performance degradation and high memory churn.
+		// Recommendation: Convert all sprites to *ebiten.Image once during initialization (e.g., in
+		// gamedata.init) and store them in the ObjectImages map so they can be drawn directly without
+		// conversion.
 		screen.DrawImage(ebiten.NewImageFromImage(sprite), op)
 		op.GeoM.Translate(-x, -y)
 	}
@@ -89,6 +98,6 @@ func (s *GameLoopScene) Draw(screen *ebiten.Image) {
 	op.GeoM.Rotate(s.player.Orientation)
 	op.GeoM.Translate(s.player.Centre.X, s.player.Centre.Y)
 
-	op.GeoM.Translate(float64(screen.Bounds().Dx())/2, float64(screen.Bounds().Dy())/2)
+	op.GeoM.Translate(midX, midY)
 	screen.DrawImage(s.player.Image, op)
 }
