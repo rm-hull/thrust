@@ -5,6 +5,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 	"github.com/rm-hull/thrust/internal/ui"
 )
@@ -15,6 +16,7 @@ type TerminalScene struct {
 	tick       int
 	font       *text.GoTextFace
 	cursor     *ui.Cursor
+	touchIDs   []ebiten.TouchID
 }
 
 func NewTerminalScene(lines []string, font *text.GoTextFace, nextFn func() Scene) *TerminalScene {
@@ -30,7 +32,11 @@ func (s *TerminalScene) Update() (Scene, error) {
 	s.tick++
 	s.typewriter.Update()
 	// Allow skipping with space/enter
-	if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsKeyPressed(ebiten.KeyEnter) {
+	s.touchIDs = inpututil.AppendJustPressedTouchIDs(s.touchIDs[:0])
+	if ebiten.IsKeyPressed(ebiten.KeySpace) ||
+		ebiten.IsKeyPressed(ebiten.KeyEnter) ||
+		ebiten.IsMouseButtonPressed(ebiten.MouseButton0) ||
+		len(s.touchIDs) > 0 {
 		return s.nextFn(), nil
 	}
 	return nil, nil

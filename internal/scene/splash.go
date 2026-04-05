@@ -5,6 +5,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/rm-hull/thrust/internal/assets"
 )
 
@@ -15,6 +16,7 @@ type SplashScene struct {
 	fadeAfter int
 	tick      int
 	nextFn    func() Scene
+	touchIDs  []ebiten.TouchID
 }
 
 func NewSplashScene(fadeAfter int, nextFn func() Scene) *SplashScene {
@@ -25,7 +27,11 @@ func NewSplashScene(fadeAfter int, nextFn func() Scene) *SplashScene {
 }
 
 func (s *SplashScene) Update() (Scene, error) {
-	if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsKeyPressed(ebiten.KeyEnter) {
+	s.touchIDs = inpututil.AppendJustPressedTouchIDs(s.touchIDs[:0])
+	if ebiten.IsKeyPressed(ebiten.KeySpace) ||
+		ebiten.IsKeyPressed(ebiten.KeyEnter) ||
+		inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) ||
+		len(s.touchIDs) > 0 {
 		s.done = true
 	}
 	s.tick++
