@@ -7,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/hajimehoshi/ebiten/v2"
 	gamedata "github.com/rm-hull/thrust/internal/model/gamedata"
-	"github.com/rm-hull/thrust/internal/ui"
 )
 
 func main() {
@@ -24,7 +24,9 @@ func main() {
 		if level.Flags.ReverseGravity {
 			startY = (int(level.PlayerStart.Y.Float64())) * 2
 		}
-		ui.DrawImageAt(img, gamedata.ShipImages[0], startX, startY)
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Translate(float64(startX), float64(startY))
+		img.DrawImage(gamedata.ShipImages[0], op)
 
 		filename := fmt.Sprintf("level_%d_terrain.png", i)
 		outputPath := filepath.Join("doc", "terrain", filename)

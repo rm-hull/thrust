@@ -1,8 +1,9 @@
 package gamedata
 
 import (
-	"image"
 	"image/color"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 const (
@@ -78,7 +79,7 @@ type TerrainData struct {
 	RightWall2 TerrainWallData `json:"right_wall_2"`
 }
 
-func (terrain *TerrainData) Render(background color.RGBA) *image.RGBA {
+func (terrain *TerrainData) Render(background color.RGBA) *ebiten.Image {
 	// The logical height is the sum of all RLE segment counts.
 	// To maintain the scanline effect (terrain line + black gap),
 	// the total pixel height is LogicalHeight * 2.
@@ -89,7 +90,7 @@ func (terrain *TerrainData) Render(background color.RGBA) *image.RGBA {
 	}
 
 	width := (WorldWidthCharacters - 1) * PixelsPerCharacter
-	img := image.NewRGBA(image.Rect(0, 0, width, height))
+	img := ebiten.NewImage(width, height)
 
 	// Fill background (black)
 	for y := range height {

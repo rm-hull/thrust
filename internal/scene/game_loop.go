@@ -119,13 +119,7 @@ func (s *GameLoopScene) Draw(screen *ebiten.Image) {
 		y := 255 + 255 + obj.PosY.Float64()*2
 
 		op.GeoM.Translate(x, y)
-		// Calling ebiten.NewImageFromImage inside the Draw method is a significant performance issue.
-		// This function creates a new GPU texture from the source image.Image every frame. For a level
-		// with many objects, this will lead to severe performance degradation and high memory churn.
-		// Recommendation: Convert all sprites to *ebiten.Image once during initialization (e.g., in
-		// gamedata.init) and store them in the ObjectImages map so they can be drawn directly without
-		// conversion.
-		screen.DrawImage(ebiten.NewImageFromImage(sprite), op)
+		screen.DrawImage(sprite, op)
 		op.GeoM.Translate(-x, -y)
 	}
 

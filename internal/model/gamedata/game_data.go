@@ -8,8 +8,9 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
-	"image"
 	"path/filepath"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 //go:embed game_data.json
@@ -24,7 +25,7 @@ func init() {
 		objectTypeValues[v] = k
 	}
 
-	ObjectImages = make(map[ObjectType]image.Image)
+	ObjectImages = make(map[ObjectType]*ebiten.Image)
 
 	mappings := []struct {
 		typ      ObjectType

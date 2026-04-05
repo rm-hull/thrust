@@ -1,9 +1,7 @@
 package gamedata
 
 import (
-	"image"
-
-	"github.com/rm-hull/thrust/internal/ui"
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 // LevelObject represents a single placeable object in a level.
@@ -38,7 +36,8 @@ type LevelObject struct {
 	TractorCounter uint8 `json:"-"`
 }
 
-func (obj *LevelObject) Draw(img *image.RGBA) {
+// For removal?
+func (obj *LevelObject) Draw(img *ebiten.Image) {
 
 	if !obj.Flags.Active {
 		return
@@ -53,5 +52,8 @@ func (obj *LevelObject) Draw(img *image.RGBA) {
 	}
 	plotX := int(obj.PosX)
 	plotY := int(obj.PosY.Float64())
-	ui.DrawImageAt(img, sprite, (plotX)*PixelsPerCharacter, 255+255+plotY*2)
+
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(float64(plotX)*PixelsPerCharacter, 255+255+float64(plotY)*2)
+	img.DrawImage(sprite, op)
 }

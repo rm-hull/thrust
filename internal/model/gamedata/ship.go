@@ -6,11 +6,12 @@ import (
 	_ "image/png"
 	"path"
 
+	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/rm-hull/thrust/internal/assets"
 )
 
 // ShipImages holds the decoded ship sprites in rotation order.
-var ShipImages [32]image.Image
+var ShipImages [32]*ebiten.Image
 
 func init() {
 	for i := range 32 {
@@ -28,6 +29,6 @@ func init() {
 		}
 		_ = f.Close()
 
-		ShipImages[i] = img
+		ShipImages[i] = ebiten.NewImageFromImage(img)
 	}
 }
